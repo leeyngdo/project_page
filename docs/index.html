@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashSAC: Fast and Stable Off-Policy Reinforcement Learning for High-Dimensional Robot Control</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <!-- KaTeX auto-render -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <h1 class="title"><span class="flashsac">FlashSAC</span>: Fast and Stable<br>Off-Policy Reinforcement Learning<br>for High-Dimensional Robot Control</h1>
+
+            <!-- Authors -->
+            <div class="authors">
+                <div>
+                    <span class="author"><a href="https://i-am-proto.github.io/" target="_blank">Donghu Kim</a><sup>1,2*</sup></span>
+                    <span class="author"><a href="https://leeyngdo.github.io/" target="_blank">Youngdo Lee</a><sup>2,3*</sup></span>
+                    <span class="author"><a href="https://pmh9960.github.io/" target="_blank">Minho Park</a><sup>2</sup></span>
+                    <span class="author"><a href="https://kinam0252.github.io/" target="_blank">Kinam Kim</a><sup>2</sup></span>
+                </div>
+                <div>
+                    <span class="author"><a href="https://takuseno.github.io/" target="_blank">Takuma Seno</a><sup>4</sup></span>
+                    <span class="author"><a href="https://anahrendra.github.io/" target="_blank">I Made Aswin Nahrendra</a><sup>3</sup></span>
+                    <span class="author"><a href="https://seiing.github.io/" target="_blank">Sehee Min</a><sup>1</sup></span>
+                    <span class="author"><a href="https://www.linkedin.com/in/danielpalenicek/" target="_blank">Daniel Palenicek</a><sup>5,6</sup></span>
+                </div>
+                <div>
+                    <span class="author"><a href="https://scholar.google.com/citations?user=PvEf33EAAAAJ&hl=de" target="_blank">Florian Vogt</a><sup>7</sup></span>
+                    <span class="author"><a href="https://www.csc.kth.se/~dani/" target="_blank">Danica Kragic</a><sup>7</sup></span>
+                    <span class="author"><a href="https://www.ias.informatik.tu-darmstadt.de/Member/JanPeters" target="_blank">Jan Peters</a><sup>5,6,8</sup></span>
+                    <span class="author"><a href="https://sites.google.com/site/jaegulchoo/" target="_blank">Jaegul Choo</a><sup>2</sup></span>
+                    <span class="author"><a href="https://joonleesky.github.io/" target="_blank">Hojoon Lee</a><sup>1,2</sup></span>
+                </div>
+            </div>
+
+            <!-- Affiliations -->
+            <div class="affiliations">
+                <span class="affiliation"><sup>1</sup>Holiday Robotics</span>
+                <span class="affiliation"><sup>2</sup>KAIST</span>
+                <span class="affiliation"><sup>3</sup>KRAFTON</span>
+                <span class="affiliation"><sup>4</sup>Turing Inc</span>
+                <span class="affiliation"><sup>5</sup>TU Darmstadt</span>
+                <span class="affiliation"><sup>6</sup>hessian.AI</span>
+                <span class="affiliation"><sup>7</sup>KTH Royal Institute of Technology</span>
+                <span class="affiliation"><sup>8</sup>German Research Center for AI (DFKI)</span>
+                <span class="affiliation">* equal contribution</span>
+            </div>
+
+            <!-- TLDR -->
+            <p class="tldr">
+                <span class="flashsac">FlashSAC</span> is a fast and stable off-policy RL algorithm that achieves the highest asymptotic performance in the shortest wall-clock time among existing methods for high-dimensional sim-to-real robotic control.
+            </p>
+        </header>
+
+        <!-- Navigation Links -->
+        <nav class="nav-links">
+            <a href="#" class="nav-button disabled">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+                PDF
+            </a>
+            <a href="#" class="nav-button disabled">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                arXiv
+            </a>
+            <a href="https://github.com/DAVIAN-Robotics/FlashRL" class="nav-button" target="_blank">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                Code
+            </a>
+        </nav>
+
+        <!-- Demo Video Section -->
+        <section id="demo-video" style="margin-bottom: 60px;">
+            <div class="demo-video-container">
+                <video controls autoplay loop muted playsinline>
+                    <source src="videos/demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
+        <!-- Key Features Section -->
+        <section id="key-features" style="margin-bottom: 80px;">
+            <h2 style="text-align: center; margin-bottom: 40px;">Why <span class="flashsac">FlashSAC</span>?</h2>
+            <div class="features-grid">
+                <div class="feature-item feature-highlight">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Training</h3>
+                    <div class="feature-stat">6× faster</div>
+                    <p>Achieves 6× faster training compared to PPO through efficient off-policy learning and massively parallel simulation.</p>
+                </div>
+                <div class="feature-item feature-highlight">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Stable Learning</h3>
+                    <div class="feature-stat">Robust & Reliable</div>
+                    <p>Prevents critic error amplification through explicit control of weight, feature, and gradient norms for reliable training.</p>
+                </div>
+                <div class="feature-item feature-highlight">
+                    <div class="feature-icon">🤖</div>
+                    <h3>High-DoF Control</h3>
+                    <div class="feature-stat">50+ Tasks</div>
+                    <p>Excels at complex robotic tasks like dexterous manipulation and humanoid locomotion with substantial performance gains.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Gallery Section -->
+        <section id="videos">
+            <h2>Video Results</h2>
+
+            <!-- IsaacLab Videos -->
+            <div class="video-category">
+                <h3 id="isaaclab-title">IsaacLab</h3>
+                <div class="video-slider-container">
+                    <button class="slider-btn prev" onclick="slideVideos('isaaclab', -1)">‹</button>
+                    <div class="video-slider" id="isaaclab-slider">
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Open-Drawer-Franka-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Open-Drawer-Franka-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Lift-Cube-Franka-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Lift-Cube-Franka-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Repose-Cube-Allegro-Direct-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Repose-Cube-Allegro-Direct-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Repose-Cube-Shadow-Direct-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Repose-Cube-Shadow-Direct-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Velocity-Flat-Anymal-C-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-Anymal-C-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Velocity-Flat-Anymal-D-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-Anymal-D-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Velocity-Flat-G1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-G1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Velocity-Flat-H1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-H1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Velocity-Rough-G1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Rough-G1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Velocity-Rough-H1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Rough-H1-v0</div>
+                        </div>
+                    </div>
+                    <button class="slider-btn next" onclick="slideVideos('isaaclab', 1)">›</button>
+                    <div class="slider-indicators" id="isaaclab-indicators"></div>
+                </div>
+            </div>
+
+            <!-- Genesis Videos -->
+            <div class="video-category">
+                <h3 id="genesis-title">Genesis</h3>
+                <div class="video-slider-container">
+                    <button class="slider-btn prev" onclick="slideVideos('genesis', -1)">‹</button>
+                    <div class="video-slider" id="genesis-slider">
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/genesis/Isaac-Velocity-Flat-H1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-H1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/genesis/Isaac-Velocity-Rough-G1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Rough-G1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/genesis/Isaac-Velocity-Rough-H1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Rough-H1-v0</div>
+                        </div>
+                    </div>
+                    <button class="slider-btn next" onclick="slideVideos('genesis', 1)">›</button>
+                    <div class="slider-indicators" id="genesis-indicators"></div>
+                </div>
+            </div>
+
+            <!-- ManiSkill Videos -->
+            <div class="video-category">
+                <h3 id="maniskill-title">ManiSkill</h3>
+                <div class="video-slider-container">
+                    <button class="slider-btn prev" onclick="slideVideos('maniskill', -1)">‹</button>
+                    <div class="video-slider" id="maniskill-slider">
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/maniskill/Isaac-Repose-Cube-Allegro-Direct-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Repose-Cube-Allegro-Direct-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/maniskill/Isaac-Repose-Cube-Shadow-Direct-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Repose-Cube-Shadow-Direct-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/maniskill/Isaac-Velocity-Flat-Anymal-C-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-Anymal-C-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/maniskill/Isaac-Velocity-Flat-Anymal-D-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-Anymal-D-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/maniskill/Isaac-Velocity-Flat-G1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-G1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/maniskill/Isaac-Velocity-Flat-H1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-H1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/maniskill/Isaac-Velocity-Rough-G1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Rough-G1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/maniskill/Isaac-Velocity-Rough-H1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Rough-H1-v0</div>
+                        </div>
+                    </div>
+                    <button class="slider-btn next" onclick="slideVideos('maniskill', 1)">›</button>
+                    <div class="slider-indicators" id="maniskill-indicators"></div>
+                </div>
+            </div>
+
+            <!-- MuJoCo Playground Videos -->
+            <div class="video-category">
+                <h3 id="mujoco-title">MuJoCo Playground</h3>
+                <div class="video-slider-container">
+                    <button class="slider-btn prev" onclick="slideVideos('mujoco', -1)">‹</button>
+                    <div class="video-slider" id="mujoco-slider">
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/mujoco-playground/Isaac-Velocity-Flat-G1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-G1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/mujoco-playground/Isaac-Velocity-Flat-H1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Flat-H1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/mujoco-playground/Isaac-Velocity-Rough-G1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Rough-G1-v0</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/mujoco-playground/Isaac-Velocity-Rough-H1-v0.mp4" type="video/mp4"></video>
+                            <div class="video-caption">Isaac-Velocity-Rough-H1-v0</div>
+                        </div>
+                    </div>
+                    <button class="slider-btn next" onclick="slideVideos('mujoco', 1)">›</button>
+                    <div class="slider-indicators" id="mujoco-indicators"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Motivation Section -->
+        <section id="motivation">
+            <h2>Motivation</h2>
+            <p>
+                Simulation-based reinforcement learning is central for robotic control when expert demonstrations are unavailable. However, scaling RL to high-dimensional robots remains challenging:
+            </p>
+            <ul>
+                <li><strong>On-policy methods (PPO)</strong> are reliable but require massive amounts of simulation because they discard past data after each update.</li>
+                <li><strong>Off-policy methods (SAC, TD3)</strong> can reuse experience and are more sample-efficient, but they often become unstable in high-dimensional control.</li>
+            </ul>
+
+            <p style="margin-top: 20px;">
+                The instability of off-policy methods primarily stems from <strong>critic training</strong>. Critics are trained by minimizing a bootstrapped Bellman error:
+            </p>
+
+            <div class="equation-box">
+                <p style="text-align: center; font-size: 1.1rem; margin: 0;">
+                    $$\mathcal{L}_Q = \mathbb{E}_{(s,a,r,s') \sim \mathcal{B}} \left[ \left( Q_\theta(s, a) - (r + \gamma Q_{\bar{\theta}}(s', a')) \right)^2 \right]$$
+                </p>
+            </div>
+
+            <p style="margin-top: 20px;">
+                In off-policy settings, this is difficult to optimize because:
+            </p>
+            <ul>
+                <li><strong>Approximation errors:</strong> Target values are evaluated at next state-action pairs \((s', a')\) that may be poorly represented in the replay buffer \( \mathcal{B} \).</li>
+                <li><strong>Error amplification:</strong> Since targets depend on the critic's own predictions, errors can be recursively amplified through bootstrapped updates.</li>
+                <li><strong>High-dimensional challenges:</strong> Both effects are exacerbated in high-dimensional tasks where function approximation errors are more frequent.</li>
+            </ul>
+
+            <p style="margin-top: 20px; font-weight: 500;">
+                <strong><span class="flashsac">FlashSAC</span> addresses these challenges through two complementary mechanisms:</strong> (1) scaling data volume and diversity to reduce approximation errors, and (2) controlling critic updates to prevent error amplification.
+            </p>
+        </section>
+
+        <!-- Algorithm Section -->
+        <section id="algorithm">
+            <h2>Algorithm</h2>
+
+            <p>
+                <span class="flashsac">FlashSAC</span> achieves fast and stable off-policy learning through three key mechanisms:
+            </p>
+
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; color: #40BF52;">1. Scaling Data Volume and Diversity</h3>
+            <p>
+                To reduce approximation and extrapolation errors, <span class="flashsac">FlashSAC</span> scales the volume and diversity of training data:
+            </p>
+            <div class="scaling-data-grid">
+                <div class="feature-item feature-highlight">
+                    <div class="feature-icon">🌐</div>
+                    <h3 style="white-space: normal;">Massively Parallel Simulation</h3>
+                    <div class="feature-stat">1024 Environments</div>
+                    <p>Enables rapid accumulation of diverse trajectories and maintains adequate coverage of high-dimensional state-action spaces.</p>
+                </div>
+                <div class="feature-item feature-highlight">
+                    <div class="feature-icon">🗄️</div>
+                    <h3 style="white-space: normal;">Large-Capacity Replay Buffer</h3>
+                    <div class="feature-stat">10M Transitions</div>
+                    <p>Preserves long-tail experiences and prevents catastrophic forgetting with 10× larger capacity than standard buffers.</p>
+                </div>
+                <div class="feature-item feature-highlight">
+                    <div class="feature-icon">🔍</div>
+                    <h3 style="white-space: normal;">Unified Entropy Target</h3>
+                    <div class="feature-stat">Task-Agnostic</div>
+                    <p>Uses maximum-entropy RL with a fixed action standard deviation, ensuring consistent exploration across different robot embodiments.</p>
+                </div>
+                <div class="feature-item feature-highlight">
+                    <div class="feature-icon">🔊</div>
+                    <h3 style="white-space: normal;">Noise Repetition</h3>
+                    <div class="feature-stat">Zeta Distribution</div>
+                    <p>Induces temporal correlation in exploration by repeating sampled noise for \( k \) consecutive steps, a lightweight alternative to pink noise.</p>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px; color: #40BF52;">2. Constraining Update Dynamics</h3>
+            <p>
+                <span class="flashsac">FlashSAC</span> prevents error amplification by controlling update dynamics via architecture and training techniques:
+            </p>
+
+            <div class="algo-box">
+                <h4 style="font-size: 1.1rem; margin-bottom: 10px;">Architecture Design</h4>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Inverted Residual Blocks:</strong> Inspired by Transformers, expands features to higher dimensions then projects back with residual connections</li>
+                    <li><strong>Pre-activation Normalization:</strong> Applies batch normalization before nonlinearities to handle non-stationary replay data</li>
+                    <li><strong>Post-RMS Normalization:</strong> Bounds per-sample feature norms to prevent rare inputs from destabilizing bootstrapping</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin: 25px 0;">
+                <img src="images/architecture.png" alt="FlashSAC Architecture" style="max-width: 60%; height: auto;">
+            </div>
+
+            <div class="algo-box">
+                <h4 style="font-size: 1.1rem; margin-bottom: 10px;">Training Techniques</h4>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Cross-Batch Value Prediction:</strong> Concatenates current and next transitions into a single batch for consistent normalization statistics</li>
+                    <li><strong>Distributional Critic:</strong> Represents Q-values as categorical distributions over atoms, smoothing the optimization landscape</li>
+                    <li><strong>Adaptive Reward Scaling:</strong> Normalizes rewards to keep returns within fixed support while preserving optimal policy</li>
+                    <li><strong>Weight Normalization:</strong> Projects weight vectors onto unit-norm sphere after each update to prevent uncontrolled weight growth</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin: 25px 0;">
+                <img src="images/component_ablation.png" alt="Component Ablation Study" style="max-width: 100%; height: auto;">
+            </div>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px; color: #40BF52;">3. Scaling Model for Faster Training</h3>
+            <p>
+                With stabilized off-policy learning, <span class="flashsac">FlashSAC</span> scales model capacity to achieve high performance with short wall-clock time. Larger networks can learn more expressive policies and value functions, accelerating convergence when training is stable.
+            </p>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <img src="images/hyperparameter_ablation.png" alt="Hyperparameter Ablation Study" style="max-width: 100%; height: auto;">
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results">
+            <h2>Results</h2>
+
+            <p>
+                <span class="flashsac">FlashSAC</span> is evaluated on <strong>50+ tasks across 10 simulators</strong>, spanning high-dimensional state-based control and sim-to-real humanoid locomotion.
+            </p>
+
+            <p style="margin-top: 30px;">
+                <strong>Key Findings:</strong>
+            </p>
+            <ul>
+                <li><span class="flashsac">FlashSAC</span> consistently surpasses PPO and strong off-policy baselines (FastTD3) across all benchmarks</li>
+                <li>Performance gains increase with task dimensionality—largest improvements on high-DoF robots</li>
+                <li>Stable sim-to-real transfer demonstrates reliability for real-world deployment</li>
+                <li>Wall-clock efficiency makes <span class="flashsac">FlashSAC</span> practical for rapid iteration in robotics research</li>
+            </ul>
+
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; color: #40BF52;">State-Based Reinforcement Learning</h3>
+            <p>
+                We evaluate <span class="flashsac">FlashSAC</span> on tasks from IsaacLab, ManiSkill, Genesis, and MuJoCo Playground, grouped by state-action dimensionality:
+            </p>
+
+            <div style="background: linear-gradient(135deg, #e8f8ea 0%, #f8f9fa 100%); padding: 15px 20px; border-radius: 8px; border-left: 4px solid #40BF52; margin: 20px 0;">
+                <strong style="color: #40BF52;">💡 Key insight:</strong> Performance advantage increases with task dimensionality.
+            </div>
+
+            <div class="results-grid">
+                <div class="result-item">
+                    <h4>Low-Dimensional Tasks</h4>
+                    <p><strong>Gripper manipulation & quadruped locomotion</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><span class="flashsac">FlashSAC</span> matches <strong>PPO performance</strong></li>
+                        <li>Both converge efficiently in low-DoF settings</li>
+                    </ul>
+                </div>
+
+                <div class="result-item">
+                    <h4>High-Dimensional Tasks</h4>
+                    <p><strong>Dexterous manipulation & humanoid locomotion</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><span class="flashsac">FlashSAC</span> <strong>substantially outperforms PPO</strong> in:
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>📈 Asymptotic return (final performance)</li>
+                                <li>⏰ Wall-clock efficiency (training speed)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <img src="images/results_state_gpu.png" alt="State-Based RL Results" style="max-width: 100%; height: auto;">
+            </div>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px; color: #40BF52;">Sim-to-Real Transfer</h3>
+            <p>
+                We evaluate <span class="flashsac">FlashSAC</span> on <strong>blind locomotion</strong> with a 29-DoF Unitree G1 humanoid, training on terrain curriculum: (1) flat, (2) rough (pyramid stairs, random noise, discrete grids, waves, pits).
+            </p>
+
+            <div class="highlight-box">
+                <h4 style="font-size: 1.2rem; margin-bottom: 20px; text-align: center;">⏱️ Training Time Comparison</h4>
+
+                <div class="training-comparison-grid">
+                    <div class="training-comparison-item">
+                        <h5 style="text-align: center; margin-bottom: 15px; color: #40BF52; font-size: 1rem;">Flat Terrain</h5>
+                        <div class="training-comparison-stats">
+                            <div style="text-align: center;">
+                                <p style="font-size: 2rem; font-weight: 700; color: #40BF52; margin: 0;">30 min</p>
+                                <p style="font-size: 0.9rem; color: #555; margin-top: 5px;"><span class="flashsac">FlashSAC</span></p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p style="font-size: 2rem; font-weight: 700; color: #999; margin: 0;">3 hrs</p>
+                                <p style="font-size: 0.9rem; color: #555; margin-top: 5px;">PPO</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="training-comparison-item">
+                        <h5 style="text-align: center; margin-bottom: 15px; color: #40BF52; font-size: 1rem;">Rough Terrain</h5>
+                        <div class="training-comparison-stats">
+                            <div style="text-align: center;">
+                                <p style="font-size: 2rem; font-weight: 700; color: #40BF52; margin: 0;">4 hrs</p>
+                                <p style="font-size: 0.9rem; color: #555; margin-top: 5px;"><span class="flashsac">FlashSAC</span></p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p style="font-size: 2rem; font-weight: 700; color: #999; margin: 0;">20 hrs</p>
+                                <p style="font-size: 0.9rem; color: #555; margin-top: 5px;">PPO</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="text-align: center; font-weight: 500; color: #40BF52;">
+                    <strong>5-6× faster training</strong> while maintaining stable real-world deployment
+                </p>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <img src="images/results_sim2real.png" alt="Sim-to-Real Transfer Results" style="max-width: 100%; height: auto;">
+            </div>
+        </section>
+
+        <!-- Installation Section -->
+        <section id="installation">
+            <h2>Quick Start</h2>
+            <div class="code-block">
+                <pre><code># Install uv package manager
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone the repository
+git clone https://github.com/DAVIAN-Robotics/FlashRL.git
+cd FlashRL
+
+# Pin Python version
+uv python pin 3.10.18
+
+# Install dependencies
+uv sync
+
+# Run <span class="flashsac">FlashSAC</span> experiment
+uv run python run_online_rl.py agent=flashsac</code></pre>
+            </div>
+        </section>
+
+        <!-- Citation Section -->
+        <section id="citation">
+            <h2>Citation</h2>
+            <div class="code-block">
+                <pre><code>@article{flashsac2026,
+  title={FlashSAC: Fast and Stable Off-Policy Reinforcement Learning for High-Dimensional Robot Control},
+  author={Kim, Donghu and Lee, Youngdo and Park, Minho and Kim, Kinam and Seno, Takuma and
+          Nahrendra, I Made Aswin and Min, Sehee and Palenicek, Daniel and Vogt, Florian and
+          Kragic, Danica and Peters, Jan and Choo, Jaegul and Lee, Hojoon},
+  journal={Robotics: Science and Systems (RSS)},
+  year={2026}
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 PlaceHolder. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Lightbox for videos (if needed) -->
+    <div id="lightbox" class="lightbox">
+        <span class="close">&times;</span>
+        <div class="lightbox-content">
+            <video id="lightbox-video" controls>
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <script>
+        // Video slider functionality with infinite loop
+        const sliderStates = {
+            'isaaclab': { currentIndex: 0, isTransitioning: false },
+            'genesis': { currentIndex: 0, isTransitioning: false },
+            'maniskill': { currentIndex: 0, isTransitioning: false },
+            'mujoco': { currentIndex: 0, isTransitioning: false }
+        };
+
+        function getVisibleVideos() {
+            if (window.innerWidth <= 480) return 1;
+            if (window.innerWidth <= 768) return 2;
+            return 3;
+        }
+
+        // Initialize infinite sliders
+        function initInfiniteSlider(category) {
+            const slider = document.getElementById(category + '-slider');
+
+            // Use originalCounts if available, otherwise count current children
+            const originalCount = originalCounts[category] || slider.children.length;
+            const originalVideos = Array.from(slider.children).slice(0, originalCount);
+            const visibleVideos = getVisibleVideos();
+
+            console.log(`[${category}] Initializing slider: ${originalCount} videos, ${visibleVideos} visible`);
+
+            // Update title with task count
+            const title = document.getElementById(category + '-title');
+            const taskCount = originalCount;
+            const baseName = title.textContent.trim().replace(/\s*\(\d+\s+tasks\)/, '');
+            title.textContent = `${baseName} (${taskCount} tasks)`;
+
+            // Get slider buttons
+            const sliderContainer = slider.parentElement;
+            console.log(`[${category}] Slider container:`, sliderContainer);
+
+            const prevBtn = sliderContainer.querySelector('.slider-btn.prev');
+            const nextBtn = sliderContainer.querySelector('.slider-btn.next');
+
+            console.log(`[${category}] Buttons found - prev:`, prevBtn, 'next:', nextBtn);
+
+            if (!prevBtn || !nextBtn) {
+                console.error('Slider buttons not found for category:', category);
+                return;
+            }
+
+            // If all videos fit on screen, hide slider buttons and skip cloning
+            if (originalCount <= visibleVideos) {
+                console.log(`[${category}] Hiding buttons (${originalCount} <= ${visibleVideos})`);
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                // Hide indicators too
+                const indicatorsContainer = document.getElementById(category + '-indicators');
+                indicatorsContainer.style.display = 'none';
+                sliderStates[category].currentIndex = 0;
+                return;
+            }
+
+            // Show buttons (in case they were hidden on resize)
+            console.log(`[${category}] Showing buttons (${originalCount} > ${visibleVideos})`);
+            prevBtn.style.display = 'flex';
+            nextBtn.style.display = 'flex';
+            console.log(`[${category}] Button display after setting - prev:`, prevBtn.style.display, 'next:', nextBtn.style.display);
+
+            // Show indicators and create them
+            const indicatorsContainer = document.getElementById(category + '-indicators');
+            indicatorsContainer.style.display = 'flex';
+            createIndicators(category, originalCount);
+
+            // Clone videos and prepend to the left (in reverse to maintain order)
+            for (let i = originalCount - 1; i >= 0; i--) {
+                const cloneLeft = originalVideos[i].cloneNode(true);
+                slider.insertBefore(cloneLeft, slider.firstChild);
+            }
+
+            // Clone videos and append to the right
+            originalVideos.forEach(video => {
+                const cloneRight = video.cloneNode(true);
+                slider.appendChild(cloneRight);
+            });
+
+            // Set initial position to the middle set (original videos)
+            sliderStates[category].currentIndex = originalCount;
+            updateSliderPosition(category, false);
+            updateIndicators(category);
+        }
+
+        function updateSliderPosition(category, animate = true) {
+            const slider = document.getElementById(category + '-slider');
+            const wrappers = slider.querySelectorAll('.video-wrapper');
+            const wrapperWidth = wrappers[0].offsetWidth;
+            const gap = 15;
+            const translateX = -sliderStates[category].currentIndex * (wrapperWidth + gap);
+
+            slider.style.transition = animate ? 'transform 0.4s ease' : 'none';
+            slider.style.transform = `translateX(${translateX}px)`;
+        }
+
+        // Create indicator dots
+        function createIndicators(category, count) {
+            const indicatorsContainer = document.getElementById(category + '-indicators');
+            indicatorsContainer.innerHTML = '';
+
+            for (let i = 0; i < count; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'indicator-dot';
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    goToSlide(category, i);
+                });
+                indicatorsContainer.appendChild(dot);
+            }
+        }
+
+        // Update active indicator
+        function updateIndicators(category) {
+            const slider = document.getElementById(category + '-slider');
+            const totalWrappers = slider.querySelectorAll('.video-wrapper').length;
+            const originalVideos = totalWrappers / 3;
+
+            // Calculate the actual index in the original set
+            let actualIndex = sliderStates[category].currentIndex - originalVideos;
+
+            // Normalize to 0-based index
+            actualIndex = ((actualIndex % originalVideos) + originalVideos) % originalVideos;
+
+            const dots = document.querySelectorAll(`#${category}-indicators .indicator-dot`);
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === actualIndex);
+            });
+        }
+
+        // Go to specific slide
+        function goToSlide(category, index) {
+            if (sliderStates[category].isTransitioning) return;
+
+            const slider = document.getElementById(category + '-slider');
+            const totalWrappers = slider.querySelectorAll('.video-wrapper').length;
+            const originalVideos = totalWrappers / 3;
+
+            sliderStates[category].currentIndex = originalVideos + index;
+            updateSliderPosition(category, true);
+            updateIndicators(category);
+        }
+
+        function slideVideos(category, direction) {
+            if (sliderStates[category].isTransitioning) return;
+
+            const slider = document.getElementById(category + '-slider');
+            const totalWrappers = slider.querySelectorAll('.video-wrapper').length;
+            const originalVideos = totalWrappers / 3; // We have left clones, original, and right clones
+
+            sliderStates[category].isTransitioning = true;
+            sliderStates[category].currentIndex += direction;
+
+            updateSliderPosition(category, true);
+            updateIndicators(category);
+
+            // Reset position for infinite loop
+            setTimeout(() => {
+                if (sliderStates[category].currentIndex >= originalVideos * 2) {
+                    // Reset from right clones to original set
+                    sliderStates[category].currentIndex = originalVideos;
+                    updateSliderPosition(category, false);
+                    updateIndicators(category);
+                } else if (sliderStates[category].currentIndex < originalVideos) {
+                    // Reset from left clones to original set
+                    sliderStates[category].currentIndex = originalVideos * 2 - 1;
+                    updateSliderPosition(category, false);
+                    updateIndicators(category);
+                }
+                sliderStates[category].isTransitioning = false;
+            }, 400);
+        }
+
+        // Store original video counts for each category
+        const originalCounts = {};
+
+        // Lazy load videos using Intersection Observer
+        function setupVideoLazyLoading() {
+            const videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const video = entry.target;
+                        if (video.readyState === 0) {
+                            video.load();
+                        }
+                    }
+                });
+            }, {
+                rootMargin: '100px' // Start loading slightly before video enters viewport
+            });
+
+            // Observe all videos
+            document.querySelectorAll('video').forEach(video => {
+                video.preload = 'none';
+                videoObserver.observe(video);
+            });
+        }
+
+        // Initialize all sliders on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // First, store original counts before cloning
+            Object.keys(sliderStates).forEach(category => {
+                const slider = document.getElementById(category + '-slider');
+                originalCounts[category] = slider.querySelectorAll('.video-wrapper').length;
+            });
+
+            // Then initialize sliders
+            Object.keys(sliderStates).forEach(category => {
+                initInfiniteSlider(category);
+            });
+
+            // Setup lazy loading for videos
+            setupVideoLazyLoading();
+        });
+
+        // Reset and reinitialize sliders on window resize
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                Object.keys(sliderStates).forEach(category => {
+                    // Clear existing clones
+                    const slider = document.getElementById(category + '-slider');
+                    const allItems = Array.from(slider.querySelectorAll('.video-wrapper'));
+                    const originalCount = originalCounts[category];
+
+                    // Remove all clones to get back to original state
+                    while (slider.children.length > originalCount) {
+                        if (slider.children.length > originalCount * 2) {
+                            // Remove from beginning (left clones)
+                            slider.removeChild(slider.firstChild);
+                        } else {
+                            // Remove from end (right clones)
+                            slider.removeChild(slider.lastChild);
+                        }
+                    }
+
+                    // Reinitialize slider
+                    sliderStates[category].currentIndex = 0;
+                    slider.style.transform = 'translateX(0)';
+                    initInfiniteSlider(category);
+                });
+            }, 250);
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxVideo = document.getElementById('lightbox-video');
+        const closeBtn = document.querySelector('.close');
+        const videos = document.querySelectorAll('.video-item video');
+
+        videos.forEach(video => {
+            video.addEventListener('click', function() {
+                lightbox.style.display = 'flex';
+                lightboxVideo.src = this.querySelector('source').src;
+                lightboxVideo.play();
+            });
+        });
+
+        closeBtn.addEventListener('click', function() {
+            lightbox.style.display = 'none';
+            lightboxVideo.pause();
+        });
+
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+                lightboxVideo.pause();
+            }
+        });
+
+        // ESC key to close
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+                lightbox.style.display = 'none';
+                lightboxVideo.pause();
+            }
+        });
+    </script>
+</body>
+</html>
