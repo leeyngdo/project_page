@@ -67,7 +67,7 @@
 
         <!-- Navigation Links -->
         <nav class="nav-links">
-            <a href="#" class="nav-button disabled">
+            <a href="pdf/_RSS_26__FlashSAC.pdf" class="nav-button" target="_blank">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
@@ -75,9 +75,8 @@
                 PDF
             </a>
             <a href="#" class="nav-button disabled">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3.842 0a1 1 0 0 0-.922.608c-.153.369-.044.627.294 1.111l6.919 8.36l-1.023 1.106a1.04 1.04 0 0 0 .003 1.423l1.23 1.313l-5.44 6.444c-.28.3-.453.823-.297 1.199a1.025 1.025 0 0 0 .959.635a.91.91 0 0 0 .689-.34l5.783-6.126l7.49 8.005a.85.85 0 0 0 .684.26a.96.96 0 0 0 .877-.615c.158-.377-.017-.75-.306-1.14L13.73 13.9l1.064-1.13a.963.963 0 0 0 .009-1.316L4.633.464S4.26.01 3.867 0zm0 .272h.017c.218.005.487.272.564.364l.005.006l.005.005l10.17 10.99a.69.69 0 0 1-.008.946l-1.066 1.133l-1.498-1.772l-8.6-10.39c-.328-.472-.352-.619-.26-.841a.73.73 0 0 1 .671-.44Zm14.341 1.57a.88.88 0 0 0-.655.242l-5.696 6.158l1.694 1.832l5.309-6.514c.325-.433.479-.66.325-1.029a1.12 1.12 0 0 0-.977-.689m-7.655 12.282l1.318 1.414l-5.786 6.13a.65.65 0 0 1-.496.26a.75.75 0 0 1-.706-.467c-.112-.269.036-.687.244-.909l.005-.005l.005-.006z"/>
                 </svg>
                 arXiv
             </a>
@@ -99,41 +98,43 @@
             </div>
         </section>
 
-        <!-- Key Features Section -->
-        <section id="key-features" style="margin-bottom: 80px;">
-            <h2 style="text-align: center; margin-bottom: 40px;">Why <span class="flashsac">FlashSAC</span>?</h2>
-            <div class="features-grid">
-                <div class="feature-item feature-highlight">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Fast Training</h3>
-                    <div class="feature-stat">6× faster</div>
-                    <p>Achieves 6× faster training compared to PPO through efficient off-policy learning and massively parallel simulation.</p>
-                </div>
-                <div class="feature-item feature-highlight">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Stable Learning</h3>
-                    <div class="feature-stat">Robust & Reliable</div>
-                    <p>Prevents critic error amplification through explicit control of weight, feature, and gradient norms for reliable training.</p>
-                </div>
-                <div class="feature-item feature-highlight">
-                    <div class="feature-icon">🤖</div>
-                    <h3>High-DoF Control</h3>
-                    <div class="feature-stat">50+ Tasks</div>
-                    <p>Excels at complex robotic tasks like dexterous manipulation and humanoid locomotion with substantial performance gains.</p>
-                </div>
-            </div>
-        </section>
-
         <!-- Video Gallery Section -->
         <section id="videos">
             <h2>Video Results</h2>
+
+            <!-- Sim-to-Real Videos -->
+            <div class="video-category">
+                <h3 id="sim-to-real-title">Sim-to-Real</h3>
+                <div class="video-slider-container">
+                    <button class="slider-btn prev" onclick="slideVideos('sim-to-real', -1)">‹</button>
+                    <div class="video-slider-wrapper">
+                        <div class="video-slider natural-ratio" id="sim-to-real-slider">
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/sim-to-real/g1_walking.mp4" type="video/mp4"></video>
+                            <div class="video-caption">G1 Walking</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/sim-to-real/g1_turning.mp4" type="video/mp4"></video>
+                            <div class="video-caption">G1 Turning</div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls loop muted playsinline><source src="videos/sim-to-real/g1_stair.mp4" type="video/mp4"></video>
+                            <div class="video-caption">G1 Stair</div>
+                        </div>
+                    </div>
+                    </div>
+                    <button class="slider-btn next" onclick="slideVideos('sim-to-real', 1)">›</button>
+                    <div class="slider-indicators" id="sim-to-real-indicators"></div>
+                </div>
+            </div>
 
             <!-- IsaacLab Videos -->
             <div class="video-category">
                 <h3 id="isaaclab-title">IsaacLab</h3>
                 <div class="video-slider-container">
                     <button class="slider-btn prev" onclick="slideVideos('isaaclab', -1)">‹</button>
-                    <div class="video-slider" id="isaaclab-slider">
+                    <div class="video-slider-wrapper">
+                        <div class="video-slider" id="isaaclab-slider">
                         <div class="video-wrapper">
                             <video controls loop muted playsinline><source src="videos/isaaclab/Isaac-Open-Drawer-Franka-v0.mp4" type="video/mp4"></video>
                             <div class="video-caption">Isaac-Open-Drawer-Franka-v0</div>
@@ -175,6 +176,7 @@
                             <div class="video-caption">Isaac-Velocity-Rough-H1-v0</div>
                         </div>
                     </div>
+                    </div>
                     <button class="slider-btn next" onclick="slideVideos('isaaclab', 1)">›</button>
                     <div class="slider-indicators" id="isaaclab-indicators"></div>
                 </div>
@@ -185,7 +187,8 @@
                 <h3 id="genesis-title">Genesis</h3>
                 <div class="video-slider-container">
                     <button class="slider-btn prev" onclick="slideVideos('genesis', -1)">‹</button>
-                    <div class="video-slider" id="genesis-slider">
+                    <div class="video-slider-wrapper">
+                        <div class="video-slider" id="genesis-slider">
                         <div class="video-wrapper">
                             <video controls loop muted playsinline><source src="videos/genesis/Isaac-Velocity-Flat-H1-v0.mp4" type="video/mp4"></video>
                             <div class="video-caption">Isaac-Velocity-Flat-H1-v0</div>
@@ -199,6 +202,7 @@
                             <div class="video-caption">Isaac-Velocity-Rough-H1-v0</div>
                         </div>
                     </div>
+                    </div>
                     <button class="slider-btn next" onclick="slideVideos('genesis', 1)">›</button>
                     <div class="slider-indicators" id="genesis-indicators"></div>
                 </div>
@@ -209,7 +213,8 @@
                 <h3 id="maniskill-title">ManiSkill</h3>
                 <div class="video-slider-container">
                     <button class="slider-btn prev" onclick="slideVideos('maniskill', -1)">‹</button>
-                    <div class="video-slider" id="maniskill-slider">
+                    <div class="video-slider-wrapper">
+                        <div class="video-slider" id="maniskill-slider">
                         <div class="video-wrapper">
                             <video controls loop muted playsinline><source src="videos/maniskill/Isaac-Repose-Cube-Allegro-Direct-v0.mp4" type="video/mp4"></video>
                             <div class="video-caption">Isaac-Repose-Cube-Allegro-Direct-v0</div>
@@ -243,6 +248,7 @@
                             <div class="video-caption">Isaac-Velocity-Rough-H1-v0</div>
                         </div>
                     </div>
+                    </div>
                     <button class="slider-btn next" onclick="slideVideos('maniskill', 1)">›</button>
                     <div class="slider-indicators" id="maniskill-indicators"></div>
                 </div>
@@ -253,7 +259,8 @@
                 <h3 id="mujoco-title">MuJoCo Playground</h3>
                 <div class="video-slider-container">
                     <button class="slider-btn prev" onclick="slideVideos('mujoco', -1)">‹</button>
-                    <div class="video-slider" id="mujoco-slider">
+                    <div class="video-slider-wrapper">
+                        <div class="video-slider" id="mujoco-slider">
                         <div class="video-wrapper">
                             <video controls loop muted playsinline><source src="videos/mujoco-playground/Isaac-Velocity-Flat-G1-v0.mp4" type="video/mp4"></video>
                             <div class="video-caption">Isaac-Velocity-Flat-G1-v0</div>
@@ -270,6 +277,7 @@
                             <video controls loop muted playsinline><source src="videos/mujoco-playground/Isaac-Velocity-Rough-H1-v0.mp4" type="video/mp4"></video>
                             <div class="video-caption">Isaac-Velocity-Rough-H1-v0</div>
                         </div>
+                    </div>
                     </div>
                     <button class="slider-btn next" onclick="slideVideos('mujoco', 1)">›</button>
                     <div class="slider-indicators" id="mujoco-indicators"></div>
@@ -324,32 +332,12 @@
             <p>
                 To reduce approximation and extrapolation errors, <span class="flashsac">FlashSAC</span> scales the volume and diversity of training data:
             </p>
-            <div class="scaling-data-grid">
-                <div class="feature-item feature-highlight">
-                    <div class="feature-icon">🌐</div>
-                    <h3 style="white-space: normal;">Massively Parallel Simulation</h3>
-                    <div class="feature-stat">1024 Environments</div>
-                    <p>Enables rapid accumulation of diverse trajectories and maintains adequate coverage of high-dimensional state-action spaces.</p>
-                </div>
-                <div class="feature-item feature-highlight">
-                    <div class="feature-icon">🗄️</div>
-                    <h3 style="white-space: normal;">Large-Capacity Replay Buffer</h3>
-                    <div class="feature-stat">10M Transitions</div>
-                    <p>Preserves long-tail experiences and prevents catastrophic forgetting with 10× larger capacity than standard buffers.</p>
-                </div>
-                <div class="feature-item feature-highlight">
-                    <div class="feature-icon">🔍</div>
-                    <h3 style="white-space: normal;">Unified Entropy Target</h3>
-                    <div class="feature-stat">Task-Agnostic</div>
-                    <p>Uses maximum-entropy RL with a fixed action standard deviation, ensuring consistent exploration across different robot embodiments.</p>
-                </div>
-                <div class="feature-item feature-highlight">
-                    <div class="feature-icon">🔊</div>
-                    <h3 style="white-space: normal;">Noise Repetition</h3>
-                    <div class="feature-stat">Zeta Distribution</div>
-                    <p>Induces temporal correlation in exploration by repeating sampled noise for \( k \) consecutive steps, a lightweight alternative to pink noise.</p>
-                </div>
-            </div>
+            <ul style="margin-left: 20px; margin-top: 15px;">
+                <li><strong>Massively Parallel Simulation (1024 Environments):</strong> Enables rapid accumulation of diverse trajectories and maintains adequate coverage of high-dimensional state-action spaces.</li>
+                <li><strong>Large-Capacity Replay Buffer (10M Transitions):</strong> Preserves long-tail experiences and prevents catastrophic forgetting with 10× larger capacity than standard buffers.</li>
+                <li><strong>Unified Entropy Target (Task-Agnostic):</strong> Uses maximum-entropy RL with a fixed action standard deviation, ensuring consistent exploration across different robot embodiments.</li>
+                <li><strong>Noise Repetition (Zeta Distribution):</strong> Induces temporal correlation in exploration by repeating sampled noise for \( k \) consecutive steps, a lightweight alternative to pink noise.</li>
+            </ul>
 
             <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px; color: #40BF52;">2. Constraining Update Dynamics</h3>
             <p>
@@ -499,23 +487,80 @@
         <!-- Installation Section -->
         <section id="installation">
             <h2>Quick Start</h2>
+
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; color: #40BF52;">1. Base Dependencies</h3>
+
             <div class="code-block">
                 <pre><code># Install uv package manager
 curl -LsSf https://astral.sh/uv/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"
 
 # Clone the repository
 git clone https://github.com/DAVIAN-Robotics/FlashRL.git
 cd FlashRL
 
-# Pin Python version
-uv python pin 3.10.18
+# Pin Python version (choose one based on your setup)
+uv python pin 3.10.18   # Ubuntu 22.04, RTX 30x-40x series
+uv python pin 3.11.14   # Ubuntu 24.04, RTX 5090, Bx00 series
 
-# Install dependencies
-uv sync
-
-# Run <span class="flashsac">FlashSAC</span> experiment
-uv run python run_online_rl.py agent=flashsac</code></pre>
+# Install base dependencies
+uv sync</code></pre>
             </div>
+
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; color: #40BF52;">2. MuJoCo Setup</h3>
+
+            <div class="code-block">
+                <pre><code># Download and install MuJoCo
+wget https://github.com/deepmind/mujoco/releases/download/2.1.0/mujoco210-linux-x86_64.tar.gz
+tar xvf mujoco210-linux-x86_64.tar.gz && rm mujoco210-linux-x86_64.tar.gz
+mkdir -p ~/.mujoco && mv mujoco210 ~/.mujoco/mujoco210
+
+# Add to ~/.bashrc
+export CUDA_HOME=/usr/local/cuda
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/home/$USER/.mujoco/mujoco210/bin:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/nvidia
+export MUJOCO_GL="egl"
+export MUJOCO_EGL_DEVICE_ID="0"
+
+# Verify installation
+source ~/.bashrc
+uv run python -c "import mujoco_py"</code></pre>
+            </div>
+
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; color: #40BF52;">3. Optional Environments</h3>
+
+            <p>
+                By default, only MuJoCo and DMC environments are supported. Install additional environments with:
+            </p>
+            <div class="code-block">
+                <pre><code>uv sync --extra [environment-type]  # e.g., isaaclab, maniskill, genesis
+uv sync --extra all                 # install all environments</code></pre>
+            </div>
+
+            <p>Supported environments: <code>isaaclab</code>, <code>mujoco-playground</code>, <code>maniskill</code>, <code>genesis</code>, <code>humanoid-bench</code>, <code>myosuite</code>, <code>metaworld</code>, <code>d4rl</code></p>
+
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; color: #40BF52;">4. Training</h3>
+
+            <div class="code-block">
+                <pre><code># Run a single experiment
+uv run python run_online_rl.py
+
+# Run with custom configuration
+uv run python run_online_rl.py --overrides env=dmc --overrides env.env_name='humanoid-walk'
+
+# Run multiple experiments in parallel
+uv run python run_parallel.py \
+  --env_type maniskill_manipulation \
+  --num_seeds 3 \
+  --device_ids 0 1 2 3 \
+  --num_exp_per_device 2</code></pre>
+            </div>
+
+            <p style="margin-top: 15px;">
+                For more details, see the <a href="https://github.com/DAVIAN-Robotics/FlashRL" target="_blank">full documentation</a>.
+            </p>
         </section>
 
         <!-- Citation Section -->
@@ -550,12 +595,13 @@ uv run python run_online_rl.py agent=flashsac</code></pre>
     </div>
 
     <script>
-        // Video slider functionality with infinite loop
+        // Infinite carousel slider functionality
         const sliderStates = {
-            'isaaclab': { currentIndex: 0, isTransitioning: false },
-            'genesis': { currentIndex: 0, isTransitioning: false },
-            'maniskill': { currentIndex: 0, isTransitioning: false },
-            'mujoco': { currentIndex: 0, isTransitioning: false }
+            'sim-to-real': { currentIndex: 0, focusedVideo: 0, totalVideos: 0, clonesToAdd: 0 },
+            'isaaclab': { currentIndex: 0, focusedVideo: 0, totalVideos: 0, clonesToAdd: 0 },
+            'genesis': { currentIndex: 0, focusedVideo: 0, totalVideos: 0, clonesToAdd: 0 },
+            'maniskill': { currentIndex: 0, focusedVideo: 0, totalVideos: 0, clonesToAdd: 0 },
+            'mujoco': { currentIndex: 0, focusedVideo: 0, totalVideos: 0, clonesToAdd: 0 }
         };
 
         function getVisibleVideos() {
@@ -564,94 +610,109 @@ uv run python run_online_rl.py agent=flashsac</code></pre>
             return 3;
         }
 
-        // Initialize infinite sliders
-        function initInfiniteSlider(category) {
+        // Initialize infinite carousel slider
+        function initSlider(category) {
             const slider = document.getElementById(category + '-slider');
 
-            // Use originalCounts if available, otherwise count current children
-            const originalCount = originalCounts[category] || slider.children.length;
-            const originalVideos = Array.from(slider.children).slice(0, originalCount);
+            // Remove existing clones if any
+            slider.querySelectorAll('.clone').forEach(clone => clone.remove());
+
+            const originalVideos = Array.from(slider.children);
+            const totalVideos = originalVideos.length;
             const visibleVideos = getVisibleVideos();
 
-            console.log(`[${category}] Initializing slider: ${originalCount} videos, ${visibleVideos} visible`);
-
-            // Update title with task count
+            // Update title with task count (except for sim-to-real)
             const title = document.getElementById(category + '-title');
-            const taskCount = originalCount;
             const baseName = title.textContent.trim().replace(/\s*\(\d+\s+tasks\)/, '');
-            title.textContent = `${baseName} (${taskCount} tasks)`;
+            if (category !== 'sim-to-real') {
+                title.textContent = `${baseName} (${totalVideos} tasks)`;
+            } else {
+                title.textContent = baseName;
+            }
 
             // Get slider buttons
-            const sliderContainer = slider.parentElement;
-            console.log(`[${category}] Slider container:`, sliderContainer);
-
+            const sliderContainer = slider.parentElement.parentElement;
             const prevBtn = sliderContainer.querySelector('.slider-btn.prev');
             const nextBtn = sliderContainer.querySelector('.slider-btn.next');
+            const indicatorsContainer = document.getElementById(category + '-indicators');
 
-            console.log(`[${category}] Buttons found - prev:`, prevBtn, 'next:', nextBtn);
+            if (!prevBtn || !nextBtn) return;
 
-            if (!prevBtn || !nextBtn) {
-                console.error('Slider buttons not found for category:', category);
-                return;
-            }
-
-            // If all videos fit on screen, hide slider buttons and skip cloning
-            if (originalCount <= visibleVideos) {
-                console.log(`[${category}] Hiding buttons (${originalCount} <= ${visibleVideos})`);
+            // If all videos fit on screen, hide controls
+            if (totalVideos <= visibleVideos) {
                 prevBtn.style.display = 'none';
                 nextBtn.style.display = 'none';
-                // Hide indicators too
-                const indicatorsContainer = document.getElementById(category + '-indicators');
                 indicatorsContainer.style.display = 'none';
-                sliderStates[category].currentIndex = 0;
                 return;
             }
 
-            // Show buttons (in case they were hidden on resize)
-            console.log(`[${category}] Showing buttons (${originalCount} > ${visibleVideos})`);
+            // Show controls
             prevBtn.style.display = 'flex';
             nextBtn.style.display = 'flex';
-            console.log(`[${category}] Button display after setting - prev:`, prevBtn.style.display, 'next:', nextBtn.style.display);
-
-            // Show indicators and create them
-            const indicatorsContainer = document.getElementById(category + '-indicators');
             indicatorsContainer.style.display = 'flex';
-            createIndicators(category, originalCount);
 
-            // Clone videos and prepend to the left (in reverse to maintain order)
-            for (let i = originalCount - 1; i >= 0; i--) {
-                const cloneLeft = originalVideos[i].cloneNode(true);
-                slider.insertBefore(cloneLeft, slider.firstChild);
+            // Create clones for infinite scroll
+            // Clone enough videos to fill the visible area
+            const clonesToAdd = Math.min(visibleVideos, totalVideos);
+
+            // Add clones at the end (first N videos)
+            for (let i = 0; i < clonesToAdd; i++) {
+                const clone = originalVideos[i].cloneNode(true);
+                clone.classList.add('clone');
+                clone.setAttribute('data-original-index', i);
+                slider.appendChild(clone);
             }
 
-            // Clone videos and append to the right
-            originalVideos.forEach(video => {
-                const cloneRight = video.cloneNode(true);
-                slider.appendChild(cloneRight);
-            });
+            // Add clones at the beginning (last N videos)
+            for (let i = totalVideos - 1; i >= totalVideos - clonesToAdd; i--) {
+                const clone = originalVideos[i].cloneNode(true);
+                clone.classList.add('clone');
+                clone.setAttribute('data-original-index', i);
+                slider.insertBefore(clone, slider.firstChild);
+            }
 
-            // Set initial position to the middle set (original videos)
-            sliderStates[category].currentIndex = originalCount;
+            // Create indicators
+            createIndicators(category, totalVideos);
+
+            // Reset position - start at the first real video (after leading clones)
+            sliderStates[category].currentIndex = clonesToAdd;
+            sliderStates[category].focusedVideo = 0;
+            sliderStates[category].totalVideos = totalVideos;
+            sliderStates[category].clonesToAdd = clonesToAdd;
+
             updateSliderPosition(category, false);
-            updateIndicators(category);
+            updateButtons(category);
         }
 
         function updateSliderPosition(category, animate = true) {
             const slider = document.getElementById(category + '-slider');
             const wrappers = slider.querySelectorAll('.video-wrapper');
-            const wrapperWidth = wrappers[0].offsetWidth;
-            const gap = 15;
+            if (wrappers.length === 0) return;
+
+            const computedStyle = window.getComputedStyle(slider);
+            const gap = parseFloat(computedStyle.gap) || 15;
+            const wrapperWidth = wrappers[0].getBoundingClientRect().width;
             const translateX = -sliderStates[category].currentIndex * (wrapperWidth + gap);
 
             slider.style.transition = animate ? 'transform 0.4s ease' : 'none';
             slider.style.transform = `translateX(${translateX}px)`;
         }
 
-        // Create indicator dots
+        function updateButtons(category) {
+            const sliderContainer = document.getElementById(category + '-slider').parentElement.parentElement;
+            const prevBtn = sliderContainer.querySelector('.slider-btn.prev');
+            const nextBtn = sliderContainer.querySelector('.slider-btn.next');
+
+            // Always enable buttons for circular navigation
+            if (prevBtn) prevBtn.disabled = false;
+            if (nextBtn) nextBtn.disabled = false;
+        }
+
         function createIndicators(category, count) {
             const indicatorsContainer = document.getElementById(category + '-indicators');
             indicatorsContainer.innerHTML = '';
 
+            // Create indicator for each video
             for (let i = 0; i < count; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'indicator-dot';
@@ -663,69 +724,72 @@ uv run python run_online_rl.py agent=flashsac</code></pre>
             }
         }
 
-        // Update active indicator
         function updateIndicators(category) {
-            const slider = document.getElementById(category + '-slider');
-            const totalWrappers = slider.querySelectorAll('.video-wrapper').length;
-            const originalVideos = totalWrappers / 3;
-
-            // Calculate the actual index in the original set
-            let actualIndex = sliderStates[category].currentIndex - originalVideos;
-
-            // Normalize to 0-based index
-            actualIndex = ((actualIndex % originalVideos) + originalVideos) % originalVideos;
-
             const dots = document.querySelectorAll(`#${category}-indicators .indicator-dot`);
+            const focusedVideo = sliderStates[category].focusedVideo;
+
             dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === actualIndex);
+                // Highlight the focused video
+                dot.classList.toggle('active', index === focusedVideo);
             });
         }
 
-        // Go to specific slide
-        function goToSlide(category, index) {
-            if (sliderStates[category].isTransitioning) return;
+        function goToSlide(category, videoIndex) {
+            const state = sliderStates[category];
+            const clonesToAdd = state.clonesToAdd;
 
-            const slider = document.getElementById(category + '-slider');
-            const totalWrappers = slider.querySelectorAll('.video-wrapper').length;
-            const originalVideos = totalWrappers / 3;
+            // Focus on the clicked video
+            state.focusedVideo = videoIndex;
 
-            sliderStates[category].currentIndex = originalVideos + index;
+            // Move slider to show the selected video (accounting for leading clones)
+            state.currentIndex = clonesToAdd + videoIndex;
+
             updateSliderPosition(category, true);
             updateIndicators(category);
+            updateButtons(category);
         }
 
         function slideVideos(category, direction) {
-            if (sliderStates[category].isTransitioning) return;
-
             const slider = document.getElementById(category + '-slider');
-            const totalWrappers = slider.querySelectorAll('.video-wrapper').length;
-            const originalVideos = totalWrappers / 3; // We have left clones, original, and right clones
+            const state = sliderStates[category];
+            const totalVideos = state.totalVideos;
+            const clonesToAdd = state.clonesToAdd;
 
-            sliderStates[category].isTransitioning = true;
-            sliderStates[category].currentIndex += direction;
+            // Move to next/prev position
+            state.currentIndex += direction;
 
+            // Calculate which real video we're focused on
+            let realVideoIndex = state.currentIndex - clonesToAdd;
+
+            // Update focused video (with wrapping)
+            if (realVideoIndex < 0) {
+                realVideoIndex = totalVideos + realVideoIndex;
+            } else if (realVideoIndex >= totalVideos) {
+                realVideoIndex = realVideoIndex - totalVideos;
+            }
+            state.focusedVideo = realVideoIndex;
+
+            // Animate to new position
             updateSliderPosition(category, true);
             updateIndicators(category);
+            updateButtons(category);
 
-            // Reset position for infinite loop
+            // After animation, check if we need to reset position (if on a clone)
             setTimeout(() => {
-                if (sliderStates[category].currentIndex >= originalVideos * 2) {
-                    // Reset from right clones to original set
-                    sliderStates[category].currentIndex = originalVideos;
-                    updateSliderPosition(category, false);
-                    updateIndicators(category);
-                } else if (sliderStates[category].currentIndex < originalVideos) {
-                    // Reset from left clones to original set
-                    sliderStates[category].currentIndex = originalVideos * 2 - 1;
-                    updateSliderPosition(category, false);
-                    updateIndicators(category);
-                }
-                sliderStates[category].isTransitioning = false;
-            }, 400);
-        }
+                const allVideos = slider.children.length;
 
-        // Store original video counts for each category
-        const originalCounts = {};
+                // If we're in the leading clones area (before first real video)
+                if (state.currentIndex < clonesToAdd) {
+                    state.currentIndex = state.currentIndex + totalVideos;
+                    updateSliderPosition(category, false);
+                }
+                // If we're in the trailing clones area (after last real video)
+                else if (state.currentIndex >= clonesToAdd + totalVideos) {
+                    state.currentIndex = state.currentIndex - totalVideos;
+                    updateSliderPosition(category, false);
+                }
+            }, 400); // Match transition duration
+        }
 
         // Lazy load videos using Intersection Observer
         function setupVideoLazyLoading() {
@@ -739,10 +803,9 @@ uv run python run_online_rl.py agent=flashsac</code></pre>
                     }
                 });
             }, {
-                rootMargin: '100px' // Start loading slightly before video enters viewport
+                rootMargin: '100px'
             });
 
-            // Observe all videos
             document.querySelectorAll('video').forEach(video => {
                 video.preload = 'none';
                 videoObserver.observe(video);
@@ -751,47 +814,19 @@ uv run python run_online_rl.py agent=flashsac</code></pre>
 
         // Initialize all sliders on load
         document.addEventListener('DOMContentLoaded', function() {
-            // First, store original counts before cloning
             Object.keys(sliderStates).forEach(category => {
-                const slider = document.getElementById(category + '-slider');
-                originalCounts[category] = slider.querySelectorAll('.video-wrapper').length;
+                initSlider(category);
             });
-
-            // Then initialize sliders
-            Object.keys(sliderStates).forEach(category => {
-                initInfiniteSlider(category);
-            });
-
-            // Setup lazy loading for videos
             setupVideoLazyLoading();
         });
 
-        // Reset and reinitialize sliders on window resize
+        // Reinitialize sliders on window resize
         let resizeTimer;
         window.addEventListener('resize', function() {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function() {
                 Object.keys(sliderStates).forEach(category => {
-                    // Clear existing clones
-                    const slider = document.getElementById(category + '-slider');
-                    const allItems = Array.from(slider.querySelectorAll('.video-wrapper'));
-                    const originalCount = originalCounts[category];
-
-                    // Remove all clones to get back to original state
-                    while (slider.children.length > originalCount) {
-                        if (slider.children.length > originalCount * 2) {
-                            // Remove from beginning (left clones)
-                            slider.removeChild(slider.firstChild);
-                        } else {
-                            // Remove from end (right clones)
-                            slider.removeChild(slider.lastChild);
-                        }
-                    }
-
-                    // Reinitialize slider
-                    sliderStates[category].currentIndex = 0;
-                    slider.style.transform = 'translateX(0)';
-                    initInfiniteSlider(category);
+                    initSlider(category);
                 });
             }, 250);
         });

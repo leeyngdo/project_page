@@ -595,6 +595,19 @@ section {
     padding: 20px;
     margin: 20px 0;
     text-align: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.equation-box .katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 5px 0;
+}
+
+@media (max-width: 480px) {
+    .equation-box .katex { font-size: 0.85em; }
 }
 
 /* Algorithm Box */
@@ -693,7 +706,7 @@ section h3 {
 
 /* Video Gallery Styles */
 .video-category {
-    margin-bottom: 50px;
+    margin-bottom: 0px;
 }
 
 .video-category h3 {
@@ -706,8 +719,12 @@ section h3 {
 .video-slider-container {
     position: relative;
     width: 100%;
+    padding: 0 50px 20px 50px;
+}
+
+.video-slider-wrapper {
     overflow: hidden;
-    padding: 0 50px 40px 50px;
+    width: 100%;
 }
 
 .video-slider {
@@ -717,9 +734,7 @@ section h3 {
 }
 
 .video-wrapper {
-    min-width: calc((100% - 30px) / 3);
-    max-width: calc((100% - 30px) / 3);
-    flex-shrink: 0;
+    flex: 0 0 calc(33.333% - 10px);
     display: flex;
     flex-direction: column;
 }
@@ -728,6 +743,12 @@ section h3 {
     width: 100%;
     aspect-ratio: 1 / 1;
     border-radius: 8px;
+}
+
+/* Natural aspect ratio for sim-to-real videos */
+.video-slider.natural-ratio video {
+    aspect-ratio: auto;
+}
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     background-color: #000;
@@ -827,8 +848,7 @@ section h3 {
 /* Responsive video slider */
 @media (max-width: 768px) {
     .video-wrapper {
-        min-width: calc((100% - 15px) / 2);
-        max-width: calc((100% - 15px) / 2);
+        flex: 0 0 calc(50% - 7.5px);
     }
 
     .slider-btn {
@@ -840,7 +860,10 @@ section h3 {
 
 @media (max-width: 480px) {
     .video-wrapper {
-        min-width: 100%;
-        max-width: 100%;
+        flex: 0 0 100%;
+    }
+
+    .video-slider {
+        gap: 0;
     }
 }
