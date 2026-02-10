@@ -105,26 +105,23 @@
             <!-- Sim-to-Real Videos -->
             <div class="video-category">
                 <h3 id="sim-to-real-title">Sim-to-Real</h3>
-                <div class="video-slider-container">
-                    <button class="slider-btn prev" onclick="slideVideos('sim-to-real', -1)">‹</button>
-                    <div class="video-slider-wrapper">
-                        <div class="video-slider natural-ratio" id="sim-to-real-slider">
-                        <div class="video-wrapper">
-                            <video controls loop playsinline><source src="videos/sim-to-real/g1_walking.mp4" type="video/mp4"></video>
-                            <div class="video-caption">G1 Walking</div>
-                        </div>
-                        <div class="video-wrapper">
-                            <video controls loop playsinline><source src="videos/sim-to-real/g1_turning.mp4" type="video/mp4"></video>
-                            <div class="video-caption">G1 Turning</div>
-                        </div>
-                        <div class="video-wrapper">
-                            <video controls loop playsinline><source src="videos/sim-to-real/g1_stair.mp4" type="video/mp4"></video>
-                            <div class="video-caption">G1 Stair</div>
-                        </div>
+                <div class="sim-to-real-grid">
+                    <div class="video-wrapper">
+                        <video controls loop playsinline><source src="videos/sim-to-real/g1_stair.mp4" type="video/mp4"></video>
+                        <div class="video-caption">G1 Stair</div>
                     </div>
+                    <div class="video-wrapper">
+                        <video controls loop playsinline><source src="videos/sim-to-real/g1_push.mp4" type="video/mp4"></video>
+                        <div class="video-caption">G1 Push Perturbation</div>
                     </div>
-                    <button class="slider-btn next" onclick="slideVideos('sim-to-real', 1)">›</button>
-                    <div class="slider-indicators" id="sim-to-real-indicators"></div>
+                    <div class="video-wrapper">
+                        <video controls loop playsinline><source src="videos/sim-to-real/g1_walking.mp4" type="video/mp4"></video>
+                        <div class="video-caption">G1 Walking</div>
+                    </div>
+                    <div class="video-wrapper">
+                        <video controls loop playsinline><source src="videos/sim-to-real/g1_turning.mp4" type="video/mp4"></video>
+                        <div class="video-caption">G1 Turning</div>
+                    </div>
                 </div>
             </div>
 
@@ -190,20 +187,20 @@
                     <div class="video-slider-wrapper">
                         <div class="video-slider" id="mujoco-slider">
                         <div class="video-wrapper">
-                            <video controls loop muted playsinline><source src="videos/mujoco-playground/G1Flat.mp4" type="video/mp4"></video>
-                            <div class="video-caption">G1 Flat</div>
+                            <video controls loop muted playsinline><source src="videos/mujoco-playground/G1JoystickFlatTerrain.mp4" type="video/mp4"></video>
+                            <div class="video-caption">G1JoystickFlatTerrain</div>
                         </div>
                         <div class="video-wrapper">
-                            <video controls loop muted playsinline><source src="videos/mujoco-playground/G1Rough.mp4" type="video/mp4"></video>
-                            <div class="video-caption">G1 Rough</div>
+                            <video controls loop muted playsinline><source src="videos/mujoco-playground/G1JoystickRoughTerrain.mp4" type="video/mp4"></video>
+                            <div class="video-caption">G1JoystickRoughTerrain</div>
                         </div>
                         <div class="video-wrapper">
-                            <video controls loop muted playsinline><source src="videos/mujoco-playground/T1Flat.mp4" type="video/mp4"></video>
-                            <div class="video-caption">T1 Flat</div>
+                            <video controls loop muted playsinline><source src="videos/mujoco-playground/T1JoystickFlatTerrain.mp4" type="video/mp4"></video>
+                            <div class="video-caption">T1JoystickFlatTerrain</div>
                         </div>
                         <div class="video-wrapper">
-                            <video controls loop muted playsinline><source src="videos/mujoco-playground/T1Rough.mp4" type="video/mp4"></video>
-                            <div class="video-caption">T1 Rough</div>
+                            <video controls loop muted playsinline><source src="videos/mujoco-playground/T1JoystickRoughTerrain.mp4" type="video/mp4"></video>
+                            <div class="video-caption">T1JoystickRoughTerrain</div>
                         </div>
                     </div>
                     </div>
@@ -572,7 +569,6 @@
     <script>
         // Infinite carousel slider functionality
         const sliderStates = {
-            'sim-to-real': { currentIndex: 0, focusedVideo: 0, totalVideos: 0, clonesToAdd: 0, isTransitioning: false },
             'isaaclab': { currentIndex: 0, focusedVideo: 0, totalVideos: 0, clonesToAdd: 0, isTransitioning: false },
             'genesis': { currentIndex: 0, focusedVideo: 0, totalVideos: 0, clonesToAdd: 0, isTransitioning: false },
             'maniskill': { currentIndex: 0, focusedVideo: 0, totalVideos: 0, clonesToAdd: 0, isTransitioning: false },
