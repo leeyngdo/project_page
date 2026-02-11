@@ -52,8 +52,6 @@ Your page will be available at: `https://<username>.github.io/<repository-name>/
 </div>
 ```
 
-4. To show the video section, remove `style="display: none;"` from the `#videos` section
-
 ### Adding Images
 
 Place images in the `images/` folder and reference them in your HTML:
