@@ -707,13 +707,13 @@ section img {
 
     .slider-indicators {
         padding: 0;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 6px;
     }
 
     .indicator-dot {
-        width: 8px;
-        height: 8px;
+        width: 7px;
+        height: 7px;
     }
 
     .sim-to-real-grid {
@@ -1163,7 +1163,7 @@ section h3 {
     justify-content: center;
     gap: 8px;
     margin-top: 20px;
-    padding: 0 50px;
+    padding: 0 20px;
 }
 
 .indicator-dot {
@@ -1199,5 +1199,14 @@ section h3 {
 
     .video-slider {
         gap: 0;
+    }
+
+    .slider-indicators {
+        gap: 4px;
+    }
+
+    .indicator-dot {
+        width: 6px;
+        height: 6px;
     }
 }
